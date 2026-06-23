@@ -1,0 +1,33 @@
+import os
+import subprocess
+import time
+
+terminal_emulators = [
+    "gnome-terminal",
+    "konsole",
+    "xfce4-terminal",
+    "lxterminal",
+    "mate-terminal",
+    "terminator",
+    "xterm",
+    "urxvt"
+]
+
+def open_terminal():
+    for emulator in terminal_emulators:
+        try:
+            if subprocess.call(["which", emulator], stdout=subprocess.DEVNULL) == 0:
+                os.system(f"{emulator} &")
+                return True
+        except Exception as e:
+            continue
+    print("No known terminal emulator found!")
+    return False
+
+while True:
+    if os.name == "nt":
+        os.system("start cmd")
+    else:
+        if not open_terminal():
+            break 
+    time.sleep(0.2)
